@@ -1,11 +1,12 @@
-export default function Footer({ questions, answered }) {
+export default function Footer({ questions, answered, grade, restart }) {
     
     let quantityAnswers = "";
-    const grade = questions.length;
+    let finished = false;
 
     let heightFooter = "playing";
     if (answered.length == questions.length) {
         heightFooter = "finished";
+        finished = true;
     };
     
     if(answered.length < questions.length) {
@@ -18,7 +19,7 @@ export default function Footer({ questions, answered }) {
                         <img src="img/party.png" alt="Parabéns"/>
                         <p>PARABÉNS!</p>
                     </div>
-                    <p>Você não esqueceu de nenhum flashcard!</p>
+                    <p>Você conseguiu atingir a meta</p>
                 </>;
         } else {
             quantityAnswers = 
@@ -27,7 +28,7 @@ export default function Footer({ questions, answered }) {
                         <img src="img/sad.png" alt="Triste"/>
                         <p>PUTS!</p>
                     </div>
-                    <p>Ainda faltaram alguns... Mas não desanime!</p>
+                    <p>Ainda faltaram alguns para atingir a meta... Mas não desanime!</p>
                 </>;
         }
     }
@@ -48,6 +49,7 @@ export default function Footer({ questions, answered }) {
                     }
                 })}
             </div>
+            {finished ? <button  onClick={() => restart()}>Reiniciar Recall</button> : <></>}
         </div>
     );
 }

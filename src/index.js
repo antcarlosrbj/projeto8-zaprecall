@@ -11,20 +11,24 @@ function App() {
     const savedQuestions = [
         { ask: "O que é JSX?", answer: "Uma extensão de linguagem do JavaScript" },
         { ask: "O React é __", answer: "uma biblioteca JavaScript para construção de interfaces" },
-        { ask: "Componentes devem iniciar com __", answer: "letra maiúscula" },
-        { ask: "Podemos colocar __ dentro do JSX", answer: "expressões" },
-        { ask: "O ReactDOM nos ajuda __", answer: "interagindo com a DOM para colocar componentes React na mesma" },
-        { ask: "Usamos o npm para __", answer: "gerenciar os pacotes necessários e suas dependências" },
-        { ask: "Usamos props para __", answer: "passar diferentes informações para componentes " },
-        { ask: "Usamos estado (state) para __", answer: "dizer para o React quais informações quando atualizadas devem renderizar a tela novamente" }
+        { ask: "Componentes devem iniciar com __", answer: "letra maiúscula" }
     ];
 
-    function comparator() { 
-        return Math.random() - 0.5; 
+    function comparator() {
+        return Math.random() - 0.5;
     }
 
-    const questions = [...savedQuestions].sort(comparator);
+    function restart() {
+        questions = [...savedQuestions].sort(comparator);
+        setGrade();
+        setStatus(["notAnswered", "notAnswered", "notAnswered", "notAnswered"]);
+        setAnswered([]);
+        setPrintWelcome(true);
+    }
 
+    let questions = [...savedQuestions].sort(comparator);
+
+    const [grade, setGrade] = React.useState();
     const [status, setStatus] = React.useState(["notAnswered", "notAnswered", "notAnswered", "notAnswered"]);
     const [answered, setAnswered] = React.useState([]);
     const [printWelcome, setPrintWelcome] = React.useState(true);
@@ -39,10 +43,10 @@ function App() {
 
     return (
         <>
-            <Welcome printWelcome={printWelcome} setPrintWelcome={setPrintWelcome} />
+            <Welcome printWelcome={printWelcome} setPrintWelcome={setPrintWelcome} grade={grade} setGrade={setGrade} questions={questions} />
             <Header />
             <Main questions={questions} status={status} functionSetStatus={functionSetStatus} answered={answered} />
-            <Footer questions={questions} answered={answered} />
+            <Footer questions={questions} answered={answered} grade={grade} restart={restart} />
         </>
     );
 }
